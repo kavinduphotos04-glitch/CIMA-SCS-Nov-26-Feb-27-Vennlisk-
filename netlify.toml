@@ -7,11 +7,20 @@
   NEXT_TELEMETRY_DISABLED = "1"
 
 # Netlify automatically installs its Next.js runtime for API routes and SSR.
-# This corpus, when supplied securely, is server-only; the PDF is never deployed.
+# This AI corpus, when supplied securely, is server-only.
+# The reading PDF is shipped separately as a static document in public/documents/.
 [functions]
   included_files = ["private/index.json"]
 
 [[headers]]
   for = "/*"
   [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+# Display the pre-seen in the browser rather than forcing a download.
+[[headers]]
+  for = "/documents/vennlisk-preseen.pdf"
+  [headers.values]
+    Content-Type = "application/pdf"
+    Content-Disposition = "inline; filename=Vennlisk-Pre-seen-Nov26-Feb27.pdf"
     X-Robots-Tag = "noindex, nofollow, noarchive"

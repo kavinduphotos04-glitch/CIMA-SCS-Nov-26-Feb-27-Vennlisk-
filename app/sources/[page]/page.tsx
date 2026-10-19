@@ -22,9 +22,15 @@ export default async function SourcePage({
         CIMA Strategic Case Study · November 2026–February 2027 · Vennlisk
       </p>
       <div className="notice">
-        The original pre-seen stays private. These are original educational
-        notes linked to page {n}; consult your authorised PDF for the source
-        itself.
+        These are original educational notes linked to page {n}.{" "}
+        <a
+          className="text-link"
+          href={`/documents/vennlisk-preseen.pdf#page=${n}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open page {n} in the original pre-seen ↗
+        </a>
       </div>
       {lessons.map((l, i) => (
         <article className="panel" key={i}>

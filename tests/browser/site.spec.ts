@@ -95,8 +95,8 @@ test("KPI calculator, risk heatmap and deep-linked sources work", async ({
     page.getByRole("heading", { name: "Follow the evidence." }),
   ).toBeVisible();
   await expect(
-    page.getByText("The original pre-seen stays private.", { exact: false }),
-  ).toBeVisible();
+    page.getByRole("link", { name: "Open page 17 in the original pre-seen ↗" }),
+  ).toHaveAttribute("href", "/documents/vennlisk-preseen.pdf#page=17");
 });
 test("all twelve chapters render and have working source notes", async ({
   page,
@@ -217,4 +217,46 @@ test("main learning screens pass automated WCAG A/AA checks with reduced motion"
       route,
     ).toEqual([]);
   }
+});
+
+test("navigation opens the actual pre-seen PDF in a separate tab on desktop and mobile", async ({
+  page,
+  request,
+}) => {
+  for (const width of [390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const link = page.getByRole("link", {
+      name: "Open pre-seen PDF (opens in a new tab)",
+    });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    await expect(link).toHaveAttribute(
+      "href",
+      "/documents/vennlisk-preseen.pdf",
+    );
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth + 1,
+      ),
+    ).toBe(true);
+  }
+  const pdf = await request.get("/documents/vennlisk-preseen.pdf");
+  expect(pdf.status()).toBe(200);
+  expect(pdf.headers()["content-type"]).toContain("application/pdf");
+  expect(pdf.headers()["content-disposition"]).toContain("inline");
+  expect(pdf.headers()["x-robots-tag"]).toContain("noindex");
+  const bytes = await pdf.body();
+  expect(bytes.subarray(0, 5).toString()).toBe("%PDF-");
+  expect(bytes.length).toBe(1338964);
+  // The browser's native PDF viewer is opened without replacing the study page.
+  const popupPromise = page.waitForEvent("popup");
+  await page
+    .getByRole("link", { name: "Open pre-seen PDF (opens in a new tab)" })
+    .click();
+  const popup = await popupPromise;
+  await expect(popup).toHaveURL(/\/documents\/vennlisk-preseen\.pdf$/);
+  await expect(page).toHaveURL("/");
+  await popup.close();
 });

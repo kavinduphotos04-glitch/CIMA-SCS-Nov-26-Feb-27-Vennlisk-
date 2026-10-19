@@ -6,6 +6,16 @@ const config: NextConfig = {
   async headers() {
     return [
       {
+        source: "/documents/vennlisk-preseen.pdf",
+        headers: [
+          { key: "Content-Type", value: "application/pdf" },
+          {
+            key: "Content-Disposition",
+            value: "inline; filename=Vennlisk-Pre-seen-Nov26-Feb27.pdf",
+          },
+        ],
+      },
+      {
         source: "/:path*",
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },

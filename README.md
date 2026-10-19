@@ -15,7 +15,7 @@ The development server listens on port 3000. `npm run build` and `npm start` run
 
 ## Source ingestion (private)
 
-Place your authorised copy of `SCS_Nov26_Feb27_Pre_seen_Material_91eeefda56.pdf` at `private/preseen.pdf`. The supplied file is already present in this prepared workspace, but is intentionally ignored by Git. Never put it or the full extracted index in `public/`. Neither PDF bytes nor raw index passages have a public application route.
+Place your authorised copy of `SCS_Nov26_Feb27_Pre_seen_Material_91eeefda56.pdf` at `private/preseen.pdf`. The supplied file is already present in this prepared workspace, but is intentionally ignored by Git. The top-navigation document icon opens the bundled reading copy at `public/documents/vennlisk-preseen.pdf` in a new tab. That reading copy is committed and deployed as a static PDF with inline display headers; anyone with website access can read it. The extraction working copy stays ignored. Keep the full extracted index private and out of `public/`.
 
 ```sh
 npm run ingest
@@ -23,7 +23,7 @@ npm run ingest
 
 This uses PDF.js to read all 28 pages, group text by visual row (preserving the financial-table column order), and create overlapping page-aware chunks in `private/index.json`. It records a SHA-256 source fingerprint. Chart interpretation is authored separately: unlabelled industry percentages and exact historical share-price points are not fabricated. PDF.js may emit a harmless font-program warning during extraction; it does not prevent text indexing.
 
-The lessons cover substantive pages 4–27; source notes also explain the context and publication pages. Public educational notes are original summaries, not the full PDF. Source links lead to those page-specific notes and identify the page to consult in the student's own authorised copy. No optional theory workbooks were supplied or assumed.
+The lessons cover substantive pages 4–27; source notes also explain the context and publication pages. Public educational notes are original summaries, not the full PDF. Source links lead to those page-specific notes; the top-navigation PDF icon opens the original 28-page pre-seen for reading. No optional theory workbooks were supplied or assumed.
 
 ## Enable the AI tutor
 
@@ -60,7 +60,7 @@ Financial amounts are W$ million. Expenses in the explorer are positive magnitud
 
 For a private, authorised study deployment on a Node-compatible host: install with `npm ci`, mount `private/preseen.pdf` and `private/index.json` securely, configure server secrets, run ingestion in the deployment working directory, build, and start. On hosts with ephemeral filesystems, generate/package the private index in the build or mount persistent private storage; do not depend on runtime writes surviving restarts. Run the app at the repository working directory so it can locate its private index. Next.js standalone packaging is not configured.
 
-Before making an AI-enabled deployment shared or public, add authentication/access control, a persistent distributed rate limit and usage budgets. The included in-memory 12-requests-per-minute limiter and same-origin check are suitable for a single-instance private study environment; they are not distributed abuse protection. Authenticate trusted reverse-proxy forwarding headers at your host. Authorised users' submitted questions and retrieved PDF passages are transmitted to OpenAI when AI is enabled. Do not send unrelated confidential data. Never publicly distribute the official PDF or extracted corpus, and confirm rights before sharing educational derivative content. No deployment or publication was performed by this task.
+Before making an AI-enabled deployment shared or public, add authentication/access control, a persistent distributed rate limit and usage budgets. The included in-memory 12-requests-per-minute limiter and same-origin check are suitable for a single-instance private study environment; they are not distributed abuse protection. Authenticate trusted reverse-proxy forwarding headers at your host. Authorised users' submitted questions and retrieved PDF passages are transmitted to OpenAI when AI is enabled. Do not send unrelated confidential data. The reading PDF is delivered through the website, so use hosting access protection to restrict it to authorised study users. Keep the extracted AI corpus private.
 
 ## Deploy a test site on Netlify
 
@@ -73,7 +73,7 @@ Connect this GitHub repository to Netlify using **Add new project → Import an 
 
 Do not upload `.next` with Netlify Drop or change the app to a static export: the tutor and source-note routes require the server runtime. No API key is needed to deploy and explore the UI, lessons, quizzes and financial tools.
 
-The original PDF and index are excluded from Git, so a GitHub-based deployment will correctly show the tutor as unconfigured. If enabling tutoring later, supply a semantic `private/index.json` through a secure build step and set `OPENAI_API_KEY` or `VENNLISK_AI_KEY` in Netlify’s server/function environment. The Netlify function configuration includes only that index, never the PDF, in private function bundles. Do not upload either file into the public directory.
+The reading PDF in `public/documents/` is included automatically in a GitHub-based Netlify deployment. The private extraction working copy and AI index are excluded from Git, so a fresh deployment will correctly show the tutor as unconfigured. If enabling tutoring later, supply a semantic `private/index.json` through a secure build step and set `OPENAI_API_KEY` or `VENNLISK_AI_KEY` in Netlify’s server/function environment. The Netlify function configuration includes only that index in private function bundles; the separate reading PDF is a static asset. Do not put the extracted AI index into the public directory.
 
 All pages send `noindex, nofollow, noarchive` and include robots metadata to request exclusion from search engines. This is an **unlisted test site**, not access control. Anyone who obtains its URL can open it. To restrict access, enable Netlify site protection where supported by your plan, or add application authentication before sharing. A private GitHub repository does not automatically make the deployed website private. For a temporary preview rather than a production URL, use a Netlify draft deploy after connecting your account.
 

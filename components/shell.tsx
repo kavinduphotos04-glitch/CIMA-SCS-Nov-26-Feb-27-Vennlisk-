@@ -7,6 +7,7 @@ import {
   ArrowUpRight,
   Check,
   Command,
+  FileText,
   Menu,
   Search,
   Sparkles,
@@ -97,6 +98,16 @@ function Frame({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
           <div className="nav-actions">
+            <a
+              className="preseen-link icon-button"
+              href="/documents/vennlisk-preseen.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open pre-seen PDF (opens in a new tab)"
+              title="Open pre-seen PDF in a new tab"
+            >
+              <FileText size={19} aria-hidden="true" />
+            </a>
             <button
               className="search-trigger"
               onClick={() => setSearch(true)}

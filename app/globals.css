@@ -4391,3 +4391,21 @@ tbody tr:hover {
 .preview-question {
   color: #62477e;
 }
+
+/* Keep the source document one click away on every viewport. */
+.preseen-link {
+  color: var(--purple-dark);
+  border: 1px solid var(--line);
+  background: #faf8fe;
+  min-width: 38px;
+  min-height: 38px;
+}
+.preseen-link:hover {
+  background: #eee7f7;
+}
+@media (max-width: 760px) {
+  .preseen-link {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
