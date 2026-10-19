@@ -14,10 +14,12 @@ import {
   X,
 } from "lucide-react";
 import { modules, glossary } from "@/lib/content";
+import { examTriggers } from "@/lib/leadership";
 import { ProgressProvider, useProgress } from "./progress";
 const nav = [
   ["Overview", "/"],
   ["Learn", "/learn"],
+  ["Leadership", "/leadership"],
   ["Financials", "/financials"],
   ["Risks", "/risks"],
   ["AI Tutor", "/tutor"],
@@ -197,6 +199,21 @@ function Frame({ children }: { children: React.ReactNode }) {
           <div className="eyebrow">
             {q ? "MATCHING TOPICS" : "JUMP INTO A CHAPTER"}
           </div>
+          {(!q ||
+            `leadership directors executive non-executive governance discrepancies ${examTriggers.map((t) => t.title + " " + t.evidence).join(" ")}`
+              .toLowerCase()
+              .includes(q.toLowerCase())) && (
+            <Link href="/leadership" onClick={() => setSearch(false)}>
+              <div>
+                <strong>Leadership & exam triggers</strong>
+                <span>
+                  Executive roles, non-executive challenge and case
+                  discrepancies.
+                </span>
+              </div>
+              <ArrowUpRight size={17} />
+            </Link>
+          )}
           {results.map((m) => (
             <Link
               key={m.slug}

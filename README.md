@@ -79,6 +79,12 @@ All pages send `noindex, nofollow, noarchive` and include robots metadata to req
 
 No Netlify account credentials are stored in this repository. Creating the deployment requires authorisation in your Netlify account.
 
+## Leadership and exam practice
+
+The `/leadership` page groups all nine directors into five executive and four non-executive roles, using the disclosed profiles and committee memberships on pages 13–16. Operational responsibilities are distinguished from governance interpretations. The page includes nine source-linked exam-practice triggers covering staff development, wellbeing, performance incentives, Board challenge, conflicting reports, AI, privacy, funding and sustainability claims.
+
+Case tensions are separated from hypothetical developments. The material does not claim to predict exam questions or establish misconduct from a blog account or missing disclosure. Each trigger identifies evidence, limitations, suggested ownership and a balanced response. The homepage, top navigation, command search and existing governance chapter link to this section.
+
 ## Structure
 
 - `app/`: routes, layouts, status and tutor APIs

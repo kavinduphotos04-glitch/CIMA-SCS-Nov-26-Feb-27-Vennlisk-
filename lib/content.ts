@@ -369,6 +369,12 @@ export const modules: Module[] = [
         pages: [15, 16],
         kind: "Analysis",
       },
+      {
+        title: "Discrepancies as an examination lens",
+        body: "Development and retention claims sit alongside a blogger’s account of limited promotion; break monitoring sits alongside reported discomfort. These are tensions to investigate, not established misstatements. Identify the evidence, ask what could explain the difference, name the executive owner and recommend proportionate non-executive challenge. The dedicated Leadership section separates these case tensions from fictional exam developments.",
+        pages: [12, 16, 17, 25],
+        kind: "Analysis",
+      },
     ],
     question: "Who receives the Chief Internal Auditor’s reports?",
     options: [

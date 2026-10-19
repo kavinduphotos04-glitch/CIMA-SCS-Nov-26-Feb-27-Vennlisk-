@@ -260,3 +260,128 @@ test("navigation opens the actual pre-seen PDF in a separate tab on desktop and 
   await expect(page).toHaveURL("/");
   await popup.close();
 });
+
+test("leadership separates executive and non-executive directors and explains their roles", async ({
+  page,
+}) => {
+  await page.goto("/leadership");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "Know the people.",
+  );
+  await expect(page.locator(".leadership-profile")).toHaveCount(9);
+  await page
+    .getByRole("button", { name: "Executive directors · 5", exact: true })
+    .click();
+  await expect(page.locator(".leadership-profile")).toHaveCount(5);
+  const cfo = page
+    .locator(".leadership-profile")
+    .filter({ hasText: "Tshepo Batane" });
+  await cfo.locator("summary").click();
+  await expect(cfo).toContainText(
+    "Financial reporting, management accounting, and treasury.",
+  );
+  await expect(
+    cfo.getByText("Applied governance interpretation"),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Non-executive directors · 4", exact: true })
+    .click();
+  await expect(page.locator(".leadership-profile")).toHaveCount(4);
+  const alaor = page
+    .locator(".leadership-profile")
+    .filter({ hasText: "Alaor Leite" });
+  await alaor.locator("summary").click();
+  await expect(alaor).toContainText("not listed as an Audit Committee member");
+  const row = page
+    .getByRole("row")
+    .filter({
+      has: page.getByRole("rowheader", { name: "Alaor Leite", exact: true }),
+    });
+  await expect(row.getByRole("cell").first()).toHaveText("—");
+  await expect(
+    page.getByText("No convener is named.", { exact: false }),
+  ).toBeVisible();
+});
+
+test("exam triggers distinguish case tensions from fictional developments with evidence and responses", async ({
+  page,
+}) => {
+  await page.goto("/leadership#exam-triggers");
+  await expect(page.locator(".leadership-trigger")).toHaveCount(9);
+  await page.getByRole("button", { name: "People", exact: true }).click();
+  await expect(page.locator(".leadership-trigger")).toHaveCount(3);
+  const tension = page
+    .locator(".leadership-trigger")
+    .filter({ hasText: "Development promises vs limited promotion" });
+  await tension.locator("summary").click();
+  await expect(tension).toContainText("not proof that training is absent");
+  await expect(tension).toContainText("Farrukh Jamil");
+  await expect(tension.locator(".source-links a").last()).toHaveAttribute(
+    "href",
+    "/documents/vennlisk-preseen.pdf#page=25",
+  );
+  await page.getByRole("button", { name: "Governance", exact: true }).click();
+  const hypothetical = page
+    .locator(".leadership-trigger")
+    .filter({ hasText: "Conflicting management reports" });
+  await hypothetical.locator("summary").click();
+  await expect(hypothetical).toContainText("Hypothetical development");
+  await expect(hypothetical).toContainText(
+    "does not disclose an actual reporting discrepancy",
+  );
+  await expect(hypothetical.locator("ol li")).toHaveCount(3);
+});
+
+test("leadership is discoverable, responsive and accessible", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const width of [390, 768, 1101, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of ["/", "/leadership"]) {
+      await page.goto(path);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth + 1,
+        ),
+        `${width} ${path}`,
+      ).toBe(true);
+    }
+  }
+  await page.goto("/");
+  await page
+    .getByRole("link", { name: "Explore leadership & exam triggers" })
+    .click();
+  await expect(page).toHaveURL("/leadership");
+  await page.getByRole("button", { name: "Search topics" }).click();
+  await page
+    .getByRole("textbox", { name: "Search the case study" })
+    .fill("discrepancies");
+  await page
+    .getByRole("dialog")
+    .getByRole("link")
+    .filter({ hasText: "Leadership & exam triggers" })
+    .click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  const AxeBuilder = (await import("@axe-core/playwright")).default;
+  await page.locator(".leadership-profile").first().locator("summary").click();
+  await page.locator(".leadership-trigger").first().locator("summary").click();
+  const result = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa"])
+    .analyze();
+  expect(
+    result.violations.map((v) => ({
+      id: v.id,
+      nodes: v.nodes.map((n) => n.target),
+    })),
+  ).toEqual([]);
+  await page.screenshot({
+    path: "/tmp/vennlisk-leadership-desktop.png",
+    fullPage: true,
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({
+    path: "/tmp/vennlisk-leadership-mobile.png",
+    fullPage: true,
+  });
+});

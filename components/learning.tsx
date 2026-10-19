@@ -11,9 +11,10 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
 } from "lucide-react";
-import { modules, directors, glossary, Module } from "@/lib/content";
+import { modules, glossary, Module } from "@/lib/content";
 import { useProgress } from "./progress";
 import ModuleCard from "./module-card";
+import { LeadershipProfiles } from "./leadership";
 import { CallJourney, Reveal } from "./visuals";
 import { KpiLab, CapmLab, StrategyGrid, AiModels } from "./study-tools";
 export function LearnIndex() {
@@ -438,42 +439,17 @@ function ModelCompare() {
 function DirectorChart() {
   return (
     <section className="director-section">
-      <div className="eyebrow">THE BOARD · PP. 13–16</div>
-      <h2>People behind the decisions.</h2>
-      <div className="org-line">
-        Chair & independent challenge ↔ CEO → Functional executive directors
-      </div>
-      <div className="director-grid">
-        {directors.map((d) => (
-          <details className="director" key={d.name}>
-            <summary>
-              <span
-                className={`director-avatar ${d.type === "Executive" ? "exec" : ""}`}
-              >
-                {d.name
-                  .replace("Dr ", "")
-                  .split(" ")
-                  .map((s) => s[0])
-                  .join("")}
-              </span>
-              <span>
-                <strong>{d.name}</strong>
-                <small>{d.role}</small>
-              </span>
-              <ChevronDown size={16} />
-            </summary>
-            <p>{d.bio}</p>
-            <small>Board appointment / current role: {d.year}</small>
-            {d.committees.length > 0 && (
-              <p className="committee-list">{d.committees.join(" · ")}</p>
-            )}
-          </details>
-        ))}
-      </div>
-      <div className="notice">
-        Internal audit → Audit Committee convener. The source does not identify
-        committee conveners.
-      </div>
+      <LeadershipProfiles />
+      <Link className="continue-card" href="/leadership#exam-triggers">
+        <div>
+          <h3>What could the exam ask?</h3>
+          <p>
+            Explore governance tensions, fictional developments and applied
+            Board responses.
+          </p>
+        </div>
+        <ArrowRight size={18} />
+      </Link>
     </section>
   );
 }

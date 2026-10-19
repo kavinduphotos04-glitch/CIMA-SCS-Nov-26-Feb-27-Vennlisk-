@@ -156,6 +156,43 @@ export default function Home() {
           <ArrowRight size={16} />
         </Link>
       </section>
+      <section
+        className="leadership-feature section"
+        aria-labelledby="leadership-feature-heading"
+      >
+        <Reveal>
+          <span className="eyebrow">
+            MEET THE BOARD. THINK LIKE AN ADVISER.
+          </span>
+          <h2 id="leadership-feature-heading">
+            Who leads?
+            <br />
+            <span>Who asks the difficult questions?</span>
+          </h2>
+          <p>
+            Explore Vennlisk’s directors, separate management from oversight,
+            and turn apparent discrepancies into balanced exam analysis.
+          </p>
+          <Link className="button ink" href="/leadership">
+            Explore leadership & exam triggers <ArrowUpRight size={17} />
+          </Link>
+        </Reveal>
+        <Reveal className="leadership-feature-numbers">
+          <div>
+            <strong>5</strong>
+            <span>Executive directors</span>
+            <p>Delivery, decisions and day-to-day leadership.</p>
+          </div>
+          <div>
+            <strong>4</strong>
+            <span>Non-executive directors</span>
+            <p>Challenge, oversight and independent judgement.</p>
+          </div>
+          <Link className="text-link" href="/leadership#exam-triggers">
+            9 source-linked exam-practice triggers <ArrowRight size={15} />
+          </Link>
+        </Reveal>
+      </section>
       <section className="financial-feature section">
         <Reveal className="financial-feature-copy">
           <span className="eyebrow">BEYOND THE NUMBERS</span>
