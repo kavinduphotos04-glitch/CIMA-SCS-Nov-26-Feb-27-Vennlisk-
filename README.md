@@ -62,6 +62,23 @@ For a private, authorised study deployment on a Node-compatible host: install wi
 
 Before making an AI-enabled deployment shared or public, add authentication/access control, a persistent distributed rate limit and usage budgets. The included in-memory 12-requests-per-minute limiter and same-origin check are suitable for a single-instance private study environment; they are not distributed abuse protection. Authenticate trusted reverse-proxy forwarding headers at your host. Authorised users' submitted questions and retrieved PDF passages are transmitted to OpenAI when AI is enabled. Do not send unrelated confidential data. Never publicly distribute the official PDF or extracted corpus, and confirm rights before sharing educational derivative content. No deployment or publication was performed by this task.
 
+## Deploy a test site on Netlify
+
+Connect this GitHub repository to Netlify using **Add new project → Import an existing project** (or the repository deployment link). The committed `netlify.toml` supplies the build settings:
+
+- Build command: `npm run build`
+- Publish directory: `.next`
+- Node version: 24
+- Next.js server routes: Netlify’s automatically installed Next.js runtime
+
+Do not upload `.next` with Netlify Drop or change the app to a static export: the tutor and source-note routes require the server runtime. No API key is needed to deploy and explore the UI, lessons, quizzes and financial tools.
+
+The original PDF and index are excluded from Git, so a GitHub-based deployment will correctly show the tutor as unconfigured. If enabling tutoring later, supply a semantic `private/index.json` through a secure build step and set `OPENAI_API_KEY` or `VENNLISK_AI_KEY` in Netlify’s server/function environment. The Netlify function configuration includes only that index, never the PDF, in private function bundles. Do not upload either file into the public directory.
+
+All pages send `noindex, nofollow, noarchive` and include robots metadata to request exclusion from search engines. This is an **unlisted test site**, not access control. Anyone who obtains its URL can open it. To restrict access, enable Netlify site protection where supported by your plan, or add application authentication before sharing. A private GitHub repository does not automatically make the deployed website private. For a temporary preview rather than a production URL, use a Netlify draft deploy after connecting your account.
+
+No Netlify account credentials are stored in this repository. Creating the deployment requires authorisation in your Netlify account.
+
 ## Structure
 
 - `app/`: routes, layouts, status and tutor APIs

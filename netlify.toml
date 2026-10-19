@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Netlify automatically installs its Next.js runtime for API routes and SSR.
+# This corpus, when supplied securely, is server-only; the PDF is never deployed.
+[functions]
+  included_files = ["private/index.json"]
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"

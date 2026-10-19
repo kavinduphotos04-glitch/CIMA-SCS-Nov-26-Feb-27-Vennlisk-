@@ -9,6 +9,7 @@ import "@fontsource/space-grotesk/700.css";
 import "./globals.css";
 import Shell from "@/components/shell";
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: {
     default: "Vennlisk Academy | Master the Case",
     template: "%s | Vennlisk Academy",
