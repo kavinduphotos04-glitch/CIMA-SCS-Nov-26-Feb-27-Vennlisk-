@@ -24,6 +24,7 @@ const nav = [
   ["Risks", "/risks"],
   ["AI Tutor", "/tutor"],
   ["Exam Prep", "/exam"],
+  ["Mock Exam Academy", "/mock-exams"],
 ];
 function Frame({ children }: { children: React.ReactNode }) {
   const path = usePathname(),
@@ -209,6 +210,21 @@ function Frame({ children }: { children: React.ReactNode }) {
                 <span>
                   Executive roles, non-executive challenge and case
                   discrepancies.
+                </span>
+              </div>
+              <ArrowUpRight size={17} />
+            </Link>
+          )}
+          {(!q ||
+            "mock exam academy competitor analysis non-financial capitals vision mission debt financing internal controls audit committee".includes(
+              q.toLowerCase(),
+            )) && (
+            <Link href="/mock-exams" onClick={() => setSearch(false)}>
+              <div>
+                <strong>Mock Exam Academy</strong>
+                <span>
+                  Six guided lessons: understand, analyse, write and review Mock
+                  Exam 1.
                 </span>
               </div>
               <ArrowUpRight size={17} />

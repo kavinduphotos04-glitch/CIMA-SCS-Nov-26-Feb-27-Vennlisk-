@@ -4863,3 +4863,37 @@ tbody tr:hover {
     font-size: 10px;
   }
 }
+
+/* The additional academy navigation item uses the existing tablet drawer. */
+@media (min-width: 761px) and (max-width: 1279px) {
+  .nav {
+    display: none;
+    position: absolute;
+    top: 86px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    height: auto;
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 20px 25px #281d3908;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .nav.open {
+    display: flex;
+  }
+  .nav > a {
+    padding: 16px 5px;
+    font-size: 14px;
+  }
+  .nav > a.active:after {
+    left: auto;
+    right: 5px;
+    bottom: 21px;
+  }
+  .mobile-toggle {
+    display: inline-grid !important;
+  }
+}

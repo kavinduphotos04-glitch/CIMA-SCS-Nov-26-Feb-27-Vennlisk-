@@ -7,7 +7,10 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
+import type { MockProgress } from "@/lib/mock-exams/types";
+import { normaliseMockProgress } from "@/lib/mock-exams/progress-store";
 export type Progress = {
+  mockExams: Record<string, MockProgress>;
   completed: string[];
   visited: string[];
   bookmarks: string[];
@@ -16,6 +19,7 @@ export type Progress = {
   last: string;
 };
 const initial: Progress = {
+  mockExams: {},
   completed: [],
   visited: [],
   bookmarks: [],
@@ -27,7 +31,8 @@ const Context = createContext<{
   progress: Progress;
   update: (fn: (p: Progress) => Progress) => void;
   storageError: boolean;
-}>({ progress: initial, update: () => {}, storageError: false });
+  ready: boolean;
+}>({ progress: initial, update: () => {}, storageError: false, ready: false });
 export function ProgressProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState(initial),
     [ready, setReady] = useState(false),
@@ -45,7 +50,19 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         p.scores &&
         typeof p.scores === "object"
       )
-        setProgress({ ...initial, ...p });
+        setProgress({
+          ...initial,
+          ...p,
+          mockExams: Object.fromEntries(
+            Object.entries(
+              p.mockExams &&
+                typeof p.mockExams === "object" &&
+                !Array.isArray(p.mockExams)
+                ? p.mockExams
+                : {},
+            ).map(([id, data]) => [id, normaliseMockProgress(data)]),
+          ),
+        });
     } catch {
       setStorageError(true);
     }
@@ -64,7 +81,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [],
   );
   return (
-    <Context.Provider value={{ progress, update, storageError }}>
+    <Context.Provider value={{ progress, update, storageError, ready }}>
       {children}
     </Context.Provider>
   );

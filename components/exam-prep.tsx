@@ -83,6 +83,17 @@ export default function ExamPrep() {
       <p className="lede">
         Retrieve the facts. Apply your judgement. Practise the conversation.
       </p>
+      <Link className="continue-card" href="/mock-exams">
+        <div>
+          <span className="tiny-eyebrow">A GUIDED WAY TO PREPARE</span>
+          <h3>Mock Exam Academy</h3>
+          <p>
+            Understand the question, unpack descriptive answers and practise six
+            Mock Exam 1 lessons.
+          </p>
+        </div>
+        <ArrowRight size={20} />
+      </Link>
       <div className="practice-stats">
         <div>
           <BookOpen size={18} />

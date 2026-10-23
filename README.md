@@ -85,6 +85,22 @@ The `/leadership` page groups all nine directors into five executive and four no
 
 Case tensions are separated from hypothetical developments. The material does not claim to predict exam questions or establish misconduct from a blog account or missing disclosure. Each trigger identifies evidence, limitations, suggested ownership and a balanced response. The homepage, top navigation, command search and existing governance chapter link to this section.
 
+## Mock Exam Academy
+
+Routes:
+
+- `/mock-exams`: academy dashboard (Mock Exam 1 only)
+- `/mock-exams/mock-1`: three-section learning plan and completion ring
+- `/mock-exams/mock-1/<lesson-slug>`: six individual guided lessons
+
+The lesson slugs are `competitor-analysis`, `non-financial-capitals`, `vision-and-mission`, `debt-financing`, `internal-controls` and `audit-committee`. Each lesson includes question decoding, beginner theory with case examples, a four-stage application panel, a decision comparison, four annotated original answer paragraphs, weak/strong comparisons, a saved writing draft, a suggested answer and self-review, three checkpoint types, and clean/annotated full-answer views with copying. No AI is required.
+
+Content and source boundaries live in `lib/mock-exams/`; reusable presentation lives in `components/mock-academy/`. `Mock 1 Answer.pdf` and Activity A–E workbooks were unavailable, so the lessons use the supplied teaching brief, independently written theory, and page-referenced official pre-seen facts. Mock questions are explicitly reconstructed; AI incidents and proposed project costs are mock facts, not additions to the pre-seen. The answers and exercises do not claim official CIMA marking authority.
+
+Progress uses the existing `vennlisk-progress-v1` browser record under `mockExams[examId]`. Existing case-study progress is preserved. It tracks opened lessons, manually completed lessons, checkpoint responses, writing drafts and saved attempts, self-review and the last visited lesson. Opening a lesson never completes it. Saving a writing attempt and checking all three checkpoints permits explicit completion; correctness is feedback, not an official score. Continue Learning returns to the last visited unfinished lesson, otherwise the next unfinished lesson. Storage failures retain the existing session-only fallback notice.
+
+To add a future mock, create data satisfying `MockExam`, then register it in `lib/mock-exams/index.ts`; the dynamic routes, lesson components and progress namespace are shared. No future mock placeholders are included. Essential academy checks are in `tests/mock-academy.test.ts` and `tests/browser/mock-academy.spec.ts`.
+
 ## Structure
 
 - `app/`: routes, layouts, status and tutor APIs
